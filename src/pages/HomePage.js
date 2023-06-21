@@ -10,9 +10,11 @@ function HomePage () {
                 <img src={mountain} alt="mountain-file" className="image-drop-file" draggable="false"/>
                 <p className="text-drop-file">Drag & Drop your image here</p>
             </div>
-            <p className="or">Or</p>
-            <input type="file" id="upload-button" multiple accept="image/jpg,image/png" />
-            <label className="choose-file" for="upload-button">Choose a file</label>
+            <p className="or">Or </p>
+            <input type="file" id="upload-button" multiple accept="image/jpg,image/png"/>
+            <label className="choose-file" for="upload-button">Choose a file </label>
+            <Link to="/uploading" className="choose-file" style={{border:"none"}}>Upload</Link>
+            
         </div>
     )
 }

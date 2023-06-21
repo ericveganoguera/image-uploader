@@ -99,9 +99,59 @@ body {
 }
 
 input[type="file"] {
-    display: none;
+  display: none;
 }
 
-.active{
-    border: 2px solid #97bef4;
+.active {
+  border: 2px solid #97bef4;
+}
+
+/* UPLOADING */
+
+.container-uploading {
+  width: 340.36px;
+  height: 143.57px;
+
+  background: #ffffff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+
+  padding: 0 30px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.loading-upload-bar {
+  position: relative;
+  width: 340.71px;
+  height: 6px;
+
+  background: #f2f2f2;
+  border-radius: 8px;
+
+  border: none;
+  overflow: hidden;
+}
+
+.loading-upload-inside-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 6px;
+  background: #2f80ed;
+  border-radius: 8px;
+
+  animation: move-loading-bar 1.5s infinite linear;
+}
+
+@keyframes move-loading-bar {
+  from {
+    left: -30%;
+  }
+  to {
+    left: 100%;
+  }
 }

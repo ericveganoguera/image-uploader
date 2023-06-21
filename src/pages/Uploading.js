@@ -2,9 +2,11 @@ import { Link } from "react-router-dom"
 
 function Uploading () {
     return (
-        <div>
-            <h1>Uploading</h1>
-            <Link to="/uploading"></Link>
+        <div className="container-uploading">
+            <h1 className="title">Uploading...</h1>
+            <div className="loading-upload-bar" >
+                <div className="loading-upload-inside-bar"></div>
+            </div>
         </div>
     )
 }
