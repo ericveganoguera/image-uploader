@@ -3,6 +3,7 @@ import './App.css';
 import HomePage from './pages/HomePage.js';
 import Uploading from './pages/Uploading.js';
 import Success from './pages/Success';
+import React from 'react';
 
 
 function App() {

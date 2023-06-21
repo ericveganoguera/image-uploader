@@ -13,8 +13,7 @@ function HomePage () {
             <p className="or">Or </p>
             <input type="file" id="upload-button" multiple accept="image/jpg,image/png"/>
             <label className="choose-file" for="upload-button">Choose a file </label>
-            <Link to="/uploading" className="choose-file" style={{border:"none"}}>Upload</Link>
-            
+            <Link to="/success" className="choose-file" style={{border:"none"}}>Upload</Link>
         </div>
     )
 }
