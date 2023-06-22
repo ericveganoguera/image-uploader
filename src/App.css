@@ -20,6 +20,8 @@ body {
   display: flex;
   flex-direction: column;
   text-align: center;
+
+  position: relative;
 }
 
 .title {
@@ -39,18 +41,25 @@ body {
   color: #828282;
 }
 
-.drag-file {
+.drop-file {
   width: 338px;
   height: 218.9px;
   background: #f6f8fb;
   border: 1px dashed #97bef4;
   border-radius: 12px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  margin: 10px auto;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
 }
 
 .image-drop-file {
@@ -67,6 +76,10 @@ body {
   color: #bdbdbd;
 }
 
+.image-selected img {
+  width: 50%;
+}
+
 .or {
   font-style: normal;
   font-weight: 500;
@@ -75,6 +88,12 @@ body {
   text-align: center;
   letter-spacing: -0.035em;
   color: #bdbdbd;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 18%;
+  margin: auto;
 }
 
 .choose-file {
@@ -96,6 +115,21 @@ body {
   align-items: center;
 
   box-sizing: content-box;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8%;
+  margin: auto;
+}
+
+.uploaded-image{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
 }
 
 input[type="file"] {
@@ -104,6 +138,13 @@ input[type="file"] {
 
 .active {
   border: 2px solid #97bef4;
+}
+
+#error {
+  text-align: center;
+  color: #ff3030;
+  font-size: 0.6em;
+  margin-top: 10px;
 }
 
 /* UPLOADING */
@@ -185,9 +226,9 @@ input[type="file"] {
   margin: 0 auto;
 }
 
-.link-image-from-db:focus{
-    outline: none;
-    border: 2px solid #97bef4;
+.link-image-from-db:focus {
+  outline: none;
+  border: 2px solid #97bef4;
 }
 
 .copy-link-image-from-db {
@@ -218,6 +259,7 @@ input[type="file"] {
   from {
     left: -30%;
   }
+
   to {
     left: 100%;
   }
