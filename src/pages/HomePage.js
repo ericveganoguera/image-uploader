@@ -33,7 +33,8 @@ function HomePage() {
   const formRef = useRef(null);
   const navigate = useNavigate();
 
-  const handleFileChange = () => {
+  const handleFileChange = (event) => {
+    event.preventDefault()
     formRef.current.submit();
     navigate("/uploading");
   };
@@ -74,7 +75,7 @@ function HomePage() {
       {selectedImage ? (
         <>
           <form
-            action="http://localhost:5005/upload"
+            action="https://image-uploader-api.adaptable.app/upload"
             method="POST"
             encType="multipart/form-data"
             ref={formRef}
@@ -87,7 +88,11 @@ function HomePage() {
               onChange={handleFileChange}
             />
           </form>
-          <label className="choose-file" htmlFor="upload-button" style={{bottom:70}}>
+          <label
+            className="choose-file"
+            htmlFor="upload-button"
+            style={{ bottom: 70 }}
+          >
             Upload
           </label>
         </>
@@ -95,7 +100,7 @@ function HomePage() {
         <>
           <p className="or">Or </p>
           <form
-            action="http://localhost:5005/upload"
+            action="https://image-uploader-api.adaptable.app/upload"
             method="POST"
             encType="multipart/form-data"
             ref={formRef}
@@ -103,12 +108,12 @@ function HomePage() {
             <input
               name="file"
               type="file"
-              id="upload-button"
+              id="upload-button-2"
               accept="image/jpg,image/png"
               onChange={handleFileChange}
             />
           </form>
-          <label className="choose-file" htmlFor="upload-button">
+          <label className="choose-file" htmlFor="upload-button-2">
             Choose a file
           </label>
         </>
