@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import imageFromDb from "../assets/js.png";
 import { useState } from "react";
 
 function Success(props) {
@@ -18,7 +17,7 @@ function Success(props) {
     <div className="container">
       <FontAwesomeIcon icon={faCircleCheck} className="green-check" />
       <h1 className="title-success">Uploaded Successfully!</h1>
-      <img src={props.selectedImage} alt="Image from DB" className="image-from-db" />
+      <img src={props.selectedImageUrl} alt="Image from DB" className="image-from-db" />
       <div className="container-link-image-from-db">
         <input type="text" className="link-image-from-db" value={imageUrl} readOnly/>
         <button className="copy-link-image-from-db" onClick={copyLink}>{isCopied ? "Copied!" : "Copy link"}</button>
