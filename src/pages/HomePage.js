@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import mountain from "../assets/montain.png";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 function HomePage(props) {
@@ -35,25 +35,40 @@ function HomePage(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("URL: ",props.selectedImageUrl);
-    console.log("Image : ",props.selectedImage);
-    console.log("Name : ",props.fileName);
-    axios
-      .post(process.env.REACT_APP_URL_API, {
-        file: props.selectedImage,
-      })
-      .then(() => {
-        navigate("/uploading");
-        setTimeout(() => {
-          navigate("/success");
-        }, 2000);
-      })
-      .catch((err) => {
-        console.log("Error: ", err);
-        const errorDescription = err.response;
-        setError(errorDescription);
-      });
+    console.log("URL: ", props.selectedImageUrl);
+    console.log("Image : ", props.selectedImage);
+    console.log("Name : ", props.fileName);
+    setTimeout(() => {
+      axios
+        .post(
+          process.env.REACT_APP_URL_API,
+          { file: props.selectedImage },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((response) => {
+          console.log("Response: ", response);
+
+          navigate("/uploading");
+          setTimeout(() => {
+            navigate("/success");
+          }, 2000);
+        })
+        .catch((err) => {
+          console.log("Error: ", err.response.data.message);
+          const errorDescription = err.response.data.message;
+
+          setError(errorDescription);
+        });
+    }, 0);
   };
+
+  useEffect(() => {
+    console.log(props.selectedImage);
+  }, []);
 
   return (
     <div className="container">
@@ -67,23 +82,14 @@ function HomePage(props) {
             alt="uploaded-image"
             className="uploaded-image"
           />
-          <form onSubmit={handleSubmit}>
-            <input
-              name="file"
-              type="file"
-              id="upload-button"
-              accept="image/jpg,image/png"
-              onClick={handleSubmit}
-            />
-
-            <label
-              className="choose-file"
-              htmlFor="upload-button"
-              style={{ bottom: 70 }}
-            >
-              Upload
-            </label>
-          </form>
+          <input type="submit" id="upload-button" onClick={handleSubmit} />
+          <label
+            className="choose-file"
+            htmlFor="upload-button"
+            style={{ bottom: 70 }}
+          >
+            Upload
+          </label>
         </div>
       ) : (
         /* Si no hay imagen seleccionada */
@@ -113,6 +119,7 @@ function HomePage(props) {
             type="file"
             id="upload-button-2"
             accept="image/jpg,image/png"
+            value={props.selectedImage}
             onChange={(e) => {
               props.setSelectedImageUrlCallback(
                 URL.createObjectURL(e.target.files[0])

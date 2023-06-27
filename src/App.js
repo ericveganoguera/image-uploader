@@ -30,6 +30,8 @@ function App() {
           path="/success"
           element={
             <Success
+              selectedImageUrl={selectedImageUrl}
+              setSelectedImageUrlCallback={setSelectedImageUrl}
               selectedImage={selectedImage}
               setSelectedImageCallback={setSelectedImage}
               fileName={fileName}
