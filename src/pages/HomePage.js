@@ -1,8 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import mountain from "../assets/montain.png";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import Uploading from "./Uploading";
+
 
 function HomePage(props) {
   const [isDragging, setIsDragging] = useState(false);
@@ -36,8 +36,10 @@ function HomePage(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(props.selectedImage);
+    console.log(props.fileName);
     axios
-      .post(process.env.URL_API, {
+      .post(process.env.REACT_APP_URL_API, {
         file: props.selectedImage,
       })
       .then(() => {
@@ -48,7 +50,7 @@ function HomePage(props) {
       })
       .catch((err) => {
         console.log("Error: ", err);
-        const errorDescription = err.response
+        const errorDescription = err.response;
         setError(errorDescription);
       });
   };
@@ -65,22 +67,23 @@ function HomePage(props) {
             alt="uploaded-image"
             className="uploaded-image"
           />
+          <form onSubmit={handleSubmit}>
+            <input
+              name="file"
+              type="file"
+              id="upload-button"
+              accept="image/jpg,image/png"
+              onClick={handleSubmit}
+            />
 
-          <input
-            name="file"
-            type="submit"
-            id="upload-button"
-            accept="image/jpg,image/png"
-            onClick={handleSubmit}
-          />
-
-          <label
-            className="choose-file"
-            htmlFor="upload-button"
-            style={{ bottom: 70 }}
-          >
-            Upload
-          </label>
+            <label
+              className="choose-file"
+              htmlFor="upload-button"
+              style={{ bottom: 70 }}
+            >
+              Upload
+            </label>
+          </form>
         </div>
       ) : (
         /* Si no hay imagen seleccionada */
@@ -110,14 +113,11 @@ function HomePage(props) {
             type="file"
             id="upload-button-2"
             accept="image/jpg,image/png"
-            value={props.selectedImage}
             onChange={(e) => {
               props.setSelectedImageCallback(
                 URL.createObjectURL(e.target.files[0])
               );
-              props.setFileNameCallback(
-                URL.createObjectURL(e.target.files[0].name)
-              );
+              props.setFileNameCallback(e.target.files[0].name);
             }}
           />
           <label
