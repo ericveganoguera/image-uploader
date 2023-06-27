@@ -151,6 +151,10 @@ input[type="file"] {
   margin-top: 10px;
 }
 
+#upload-button{
+  display: none;
+}
+
 /* UPLOADING */
 
 .container-uploading {
@@ -211,17 +215,23 @@ input[type="file"] {
 }
 
 .image-from-db {
-  width: 338px;
+  width: 50%;
   height: 224.4px;
   border-radius: 12px;
   margin: 15px auto;
   object-fit: cover;
   object-position: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
 }
 
 .link-image-from-db {
   box-sizing: border-box;
-  width: 338px;
+  width: 70%;
   height: 34px;
   background: #f6f8fb;
   border: 1px solid #e0e0e0;
@@ -235,10 +245,10 @@ input[type="file"] {
   font-size: 8px;
   line-height: 12px;
   letter-spacing: -0.035em;
-  text-align: center;
-  text-indent: -170px;
+  text-indent: 10px;
 
   color: #4F4F4F;
+
 }
 
 .link-image-from-db:focus {
@@ -248,7 +258,7 @@ input[type="file"] {
 
 .copy-link-image-from-db {
   position: absolute;
-  right: 35px;
+  right: 15.5%;
   top: 2px;
 
   width: 74px;
@@ -269,7 +279,10 @@ input[type="file"] {
 
 
 .container-link-image-from-db {
-  position: relative;
+  position: absolute;
+  bottom: 10%;
+  left: 0;
+  right: 0;
 }
 
 @keyframes move-loading-bar {

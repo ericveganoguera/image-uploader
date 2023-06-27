@@ -3,9 +3,9 @@ import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import imageFromDb from "../assets/js.png";
 import { useState } from "react";
 
-function Success() {
-
-  const imageUrl = "http://localhost:5005/files/FotoPerfil.jpg"
+function Success(props) {
+  const url = "https://image-uploader-api.adaptable.app/"
+  const imageUrl = url+"files/"+props.fileName
 
   const [isCopied, setIsCopied] = useState(false)
 
@@ -18,7 +18,7 @@ function Success() {
     <div className="container">
       <FontAwesomeIcon icon={faCircleCheck} className="green-check" />
       <h1 className="title-success">Uploaded Successfully!</h1>
-      <img src={imageUrl} alt="Image from DB" className="image-from-db" />
+      <img src={props.selectedImage} alt="Image from DB" className="image-from-db" />
       <div className="container-link-image-from-db">
         <input type="text" className="link-image-from-db" value={imageUrl} readOnly/>
         <button className="copy-link-image-from-db" onClick={copyLink}>{isCopied ? "Copied!" : "Copy link"}</button>
