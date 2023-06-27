@@ -7,6 +7,7 @@ import React, { useState } from "react";
 
 function App() {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageUrl, setSelectedImageUrl] = useState(null);
   const [fileName, setFileName] = useState("");
   return (
     <div>
@@ -15,6 +16,8 @@ function App() {
           path="/"
           element={
             <HomePage
+              selectedImageUrl={selectedImageUrl}
+              setSelectedImageUrlCallback={setSelectedImageUrl}
               selectedImage={selectedImage}
               setSelectedImageCallback={setSelectedImage}
               fileName={fileName}

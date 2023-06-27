@@ -3,7 +3,6 @@ import mountain from "../assets/montain.png";
 import React, { useState } from "react";
 import axios from "axios";
 
-
 function HomePage(props) {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState("");
@@ -13,9 +12,9 @@ function HomePage(props) {
     event.preventDefault();
     setIsDragging(false);
     const file = event.dataTransfer.files[0];
-    props.setSelectedImageCallback(URL.createObjectURL(file));
+    props.setSelectedImageCallback(file);
+    props.setSelectedImageUrlCallback(URL.createObjectURL(file));
     props.setFileNameCallback(file.name);
-    console.log("SELECTED: ", props.selectedImage);
   };
 
   const handleDragEnter = (event) => {
@@ -36,8 +35,9 @@ function HomePage(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(props.selectedImage);
-    console.log(props.fileName);
+    console.log("URL: ",props.selectedImageUrl);
+    console.log("Image : ",props.selectedImage);
+    console.log("Name : ",props.fileName);
     axios
       .post(process.env.REACT_APP_URL_API, {
         file: props.selectedImage,
@@ -59,11 +59,11 @@ function HomePage(props) {
     <div className="container">
       <h1 className="title">Upload your image</h1>
       <h3 className="subtitle">File should be Jpeg, Png,...</h3>
-      {props.selectedImage ? (
+      {props.selectedImageUrl ? (
         /* Si hay imagen seleccionada */
         <div className="image-selected">
           <img
-            src={props.selectedImage}
+            src={props.selectedImageUrl}
             alt="uploaded-image"
             className="uploaded-image"
           />
@@ -114,9 +114,10 @@ function HomePage(props) {
             id="upload-button-2"
             accept="image/jpg,image/png"
             onChange={(e) => {
-              props.setSelectedImageCallback(
+              props.setSelectedImageUrlCallback(
                 URL.createObjectURL(e.target.files[0])
               );
+              props.setSelectedImageCallback(e.target.files[0]);
               props.setFileNameCallback(e.target.files[0].name);
             }}
           />
