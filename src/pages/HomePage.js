@@ -37,7 +37,7 @@ function HomePage(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("https://image-uploader-api.adaptable.app/upload", {
+      .post(process.env.URL_API, {
         file: props.selectedImage,
       })
       .then(() => {
