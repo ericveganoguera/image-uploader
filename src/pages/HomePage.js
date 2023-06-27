@@ -35,35 +35,26 @@ function HomePage(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("URL: ", props.selectedImageUrl);
-    console.log("Image : ", props.selectedImage);
-    console.log("Name : ", props.fileName);
-    setTimeout(() => {
-      axios
-        .post(
-          process.env.REACT_APP_URL_API,
-          { file: props.selectedImage },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
-        .then((response) => {
-          console.log("Response: ", response);
+    navigate("/uploading");
+    axios
+      .post(
+        process.env.REACT_APP_URL_API,
+        { file: props.selectedImage },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then((response) => {
+        navigate("/success");
+      })
+      .catch((err) => {
+        console.log("Error: ", err.response.data.message);
+        const errorDescription = err.response.data.message;
 
-          navigate("/uploading");
-          setTimeout(() => {
-            navigate("/success");
-          }, 2000);
-        })
-        .catch((err) => {
-          console.log("Error: ", err.response.data.message);
-          const errorDescription = err.response.data.message;
-
-          setError(errorDescription);
-        });
-    }, 0);
+        setError(errorDescription);
+      });
   };
 
   useEffect(() => {
