@@ -1,20 +1,34 @@
 import { useNavigate } from "react-router-dom";
 import mountain from "../assets/montain.png";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 function HomePage(props) {
   const [isDragging, setIsDragging] = useState(false);
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const dropFile = (event) => {
     event.preventDefault();
     setIsDragging(false);
     const file = event.dataTransfer.files[0];
-    props.setSelectedImageCallback(file);
-    props.setSelectedImageUrlCallback(URL.createObjectURL(file));
-    props.setFileNameCallback(file.name);
+    console.log(file.type)
+    if (
+      file.type !== "image/png" &&
+      file.type !== "image¨/jpg" &&
+      file.type !== "image/jpeg"
+    ) {
+      console.log("FORMAT");
+      props.setErrorCallback("You must select a valid format image");
+    } else if (file.size > 2097152) {
+      console.log("SIZE");
+      props.setErrorCallback("Image so big");
+    } else {
+      props.setSelectedImageCallback(file);
+      props.setSelectedImageUrlCallback(URL.createObjectURL(file));
+      props.setFileNameCallback(file.name);
+      console.log("SIZE: ", file.size);
+      console.log("GOOD");
+    }
   };
 
   const handleDragEnter = (event) => {
@@ -52,19 +66,15 @@ function HomePage(props) {
       .catch((err) => {
         console.log("Error: ", err.response.data.message);
         const errorDescription = err.response.data.message;
-
-        setError(errorDescription);
+        props.setErrorCallback(errorDescription);
+        navigate("/error");
       });
   };
-
-  useEffect(() => {
-    console.log(props.selectedImage);
-  }, []);
 
   return (
     <div className="container">
       <h1 className="title">Upload your image</h1>
-      <h3 className="subtitle">File should be Jpeg, Png,...</h3>
+      <h3 className="subtitle">File should be Jpeg or Png and maximum 2MB</h3>
       {props.selectedImageUrl ? (
         /* Si hay imagen seleccionada */
         <div className="image-selected">
@@ -109,7 +119,7 @@ function HomePage(props) {
             name="file"
             type="file"
             id="upload-button-2"
-            accept="image/jpg,image/png"
+            accept="image/jpeg,image/png"
             value={props.selectedImage}
             onChange={(e) => {
               props.setSelectedImageUrlCallback(
@@ -129,7 +139,7 @@ function HomePage(props) {
         </div>
       )}
 
-      <div id="error">{error}</div>
+      <div id="error">{props.error && props.error}</div>
     </div>
   );
 }
