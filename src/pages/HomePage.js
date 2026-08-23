@@ -47,25 +47,47 @@ function HomePage(props) {
     }
   };
 
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   navigate("/uploading");
+  //   axios
+  //     .post(
+  //       process.env.REACT_APP_URL_API,
+  //       { file: props.selectedImage },
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       }
+  //     )
+  //     .then((response) => {
+  //       navigate("/success");
+  //     })
+  //     .catch((err) => {
+  //       console.log("Error: ", err.response.data.message);
+  //       const errorDescription = err.response.data.message;
+  //       props.setErrorCallback(errorDescription);
+  //       navigate("/error");
+  //     });
+  // };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     navigate("/uploading");
+  
+    const formData = new FormData();
+    formData.append("file", props.selectedImage);
+  
     axios
-      .post(
-        process.env.REACT_APP_URL_API,
-        { file: props.selectedImage },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )
-      .then((response) => {
+      .post(process.env.REACT_APP_URL_API, formData) // deja que axios ponga el Content-Type con boundary
+      .then(() => {
         navigate("/success");
       })
       .catch((err) => {
-        console.log("Error: ", err.response.data.message);
-        const errorDescription = err.response.data.message;
+        const errorDescription =
+          err.response?.data?.message ||
+          "No se pudo conectar con el servidor. Intenta de nuevo.";
+        console.log("Error: ", errorDescription);
         props.setErrorCallback(errorDescription);
         navigate("/error");
       });

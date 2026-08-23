@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 function Success(props) {
-  const url = "https://image-uploader-api.adaptable.app/";
+  const url = process.env.REACT_APP_BASE_URL_API;
   const imageUrl = url + "files/" + props.fileName;
 
   const [isCopied, setIsCopied] = useState(false);
