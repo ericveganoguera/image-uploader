@@ -3,32 +3,31 @@ import mountain from "../assets/montain.png";
 import React, { useState } from "react";
 import axios from "axios";
 
+const VALID_TYPES = ["image/png", "image/jpeg"];
+const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
+
 function HomePage(props) {
   const [isDragging, setIsDragging] = useState(false);
   const navigate = useNavigate();
 
+  // Same checks for drag & drop and for the file picker (the API validates again)
+  const selectFile = (file) => {
+    if (!file) return;
+    if (!VALID_TYPES.includes(file.type)) {
+      props.setErrorCallback("You must select a valid format image (PNG or JPEG).");
+    } else if (file.size > MAX_FILE_SIZE) {
+      props.setErrorCallback("The image must be 2 MB or smaller.");
+    } else {
+      props.setErrorCallback("");
+      props.setSelectedImageCallback(file);
+      props.setSelectedImageUrlCallback(URL.createObjectURL(file));
+    }
+  };
+
   const dropFile = (event) => {
     event.preventDefault();
     setIsDragging(false);
-    const file = event.dataTransfer.files[0];
-    console.log(file.type)
-    if (
-      file.type !== "image/png" &&
-      file.type !== "image¨/jpg" &&
-      file.type !== "image/jpeg"
-    ) {
-      console.log("FORMAT");
-      props.setErrorCallback("You must select a valid format image");
-    } else if (file.size > 2097152) {
-      console.log("SIZE");
-      props.setErrorCallback("Image so big");
-    } else {
-      props.setSelectedImageCallback(file);
-      props.setSelectedImageUrlCallback(URL.createObjectURL(file));
-      props.setFileNameCallback(file.name);
-      console.log("SIZE: ", file.size);
-      console.log("GOOD");
-    }
+    selectFile(event.dataTransfer.files[0]);
   };
 
   const handleDragEnter = (event) => {
@@ -39,37 +38,15 @@ function HomePage(props) {
   const handleDragLeave = (event) => {
     const relatedTarget = event.relatedTarget;
     if (
-      relatedTarget.id !== "mountain" &&
+      !relatedTarget ||
+      (relatedTarget.id !== "mountain" &&
       relatedTarget.id !== "text-drop" &&
-      relatedTarget.id !== "drop-file"
+      relatedTarget.id !== "drop-file")
     ) {
       setIsDragging(false);
     }
   };
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   navigate("/uploading");
-  //   axios
-  //     .post(
-  //       process.env.REACT_APP_URL_API,
-  //       { file: props.selectedImage },
-  //       {
-  //         headers: {
-  //           "Content-Type": "multipart/form-data",
-  //         },
-  //       }
-  //     )
-  //     .then((response) => {
-  //       navigate("/success");
-  //     })
-  //     .catch((err) => {
-  //       console.log("Error: ", err.response.data.message);
-  //       const errorDescription = err.response.data.message;
-  //       props.setErrorCallback(errorDescription);
-  //       navigate("/error");
-  //     });
-  // };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -79,15 +56,16 @@ function HomePage(props) {
     formData.append("file", props.selectedImage);
   
     axios
-      .post(process.env.REACT_APP_URL_API, formData) // deja que axios ponga el Content-Type con boundary
-      .then(() => {
+      .post(process.env.REACT_APP_URL_API, formData) // axios sets the multipart boundary
+      .then((response) => {
+        // The API stores the image with a unique name: use it for the share link
+        props.setFileNameCallback(response.data.filename);
         navigate("/success");
       })
       .catch((err) => {
         const errorDescription =
           err.response?.data?.message ||
-          "No se pudo conectar con el servidor. Intenta de nuevo.";
-        console.log("Error: ", errorDescription);
+          "Could not connect to the server. Please try again.";
         props.setErrorCallback(errorDescription);
         navigate("/error");
       });
@@ -142,14 +120,7 @@ function HomePage(props) {
             type="file"
             id="upload-button-2"
             accept="image/jpeg,image/png"
-            value={props.selectedImage}
-            onChange={(e) => {
-              props.setSelectedImageUrlCallback(
-                URL.createObjectURL(e.target.files[0])
-              );
-              props.setSelectedImageCallback(e.target.files[0]);
-              props.setFileNameCallback(e.target.files[0].name);
-            }}
+            onChange={(e) => selectFile(e.target.files[0])}
           />
           <label
             className="choose-file"
