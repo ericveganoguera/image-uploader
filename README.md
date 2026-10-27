@@ -1,14 +1,20 @@
 
 # Image Uploader
 
-This is a simple site to upload your image and share with everybody! It's made with React, HTML and CSS
-
+This is a simple site to upload your image and share it with everybody! It's made with React, HTML and CSS.
 
 ## Demo
 
-![Image demo](https://image-uploader-api.adaptable.app/files/image-uploader.png)
+![Image demo](./docs/demo.png)
 
-If you want to try you can go [here!](https://upload-your-image.netlify.app)
+If you want to try it you can go [here!](https://upload-your-image.netlify.app)
+
+## Features
+
+- Drag & drop or choose a file from your device.
+- Accepts **PNG or JPEG** images up to **2 MB**. The browser checks it first and the API checks it again before storing anything.
+- Every image gets a unique name, so you always get your own link to share, even if another file has the same name.
+
 ## Run Locally
 
 Clone the project
@@ -20,7 +26,7 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd my-project
+  cd image-uploader
 ```
 
 Install dependencies
@@ -29,19 +35,21 @@ Install dependencies
   npm install
 ```
 
-Start the server
+Create a `.env` file with the URLs of the API
+
+```
+REACT_APP_URL_API=http://localhost:5005/upload
+REACT_APP_BASE_URL_API=http://localhost:5005/
+```
+
+Start the app
 
 ```bash
   npm start
 ```
 
-You'll need to add a .env file and write this code
+You'll need the API project running too, go [here](https://github.com/ericveganoguera/image-uploader-api) if you want to check the repo.
 
-```
-REACT_APP_URL_API=http://localhost:5005/upload
-```
-You'll need the api project installed too, go [here](https://github.com/ericveganoguera/image-uploader-api) if you want to check the repo
 ## Authors
 
 - [@ericveganoguera](https://github.com/ericveganoguera/)
-
